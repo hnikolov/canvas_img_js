@@ -16,6 +16,9 @@
      canvas = document.getElementsByTagName('canvas')[0];
      context = canvas.getContext('2d');
 
+     canvas.onmouseover = function(event) {yuvChannels()};
+     canvas.onmouseout  = function(event) {rgbChannels()};
+     
      canvas_ch_1 = document.getElementsByTagName('canvas')[1];
      context_ch_1 = canvas_ch_1.getContext('2d');
 

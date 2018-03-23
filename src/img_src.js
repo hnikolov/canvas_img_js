@@ -91,12 +91,44 @@ function rgbChannels() {
     
     for (var i=0;i<output.data.length;i+=4)
     {
-        img_ch_1.data[i+1] = 0; // keep only the red channel
+        img_ch_1.data[i]   = 0; // keep only the green channel
         img_ch_1.data[i+2] = 0;
 
-        img_ch_2.data[i]   = 0; // keep only the green channel
+        img_ch_2.data[i+1] = 0; // keep only the red channel
         img_ch_2.data[i+2] = 0;
 
+        img_ch_3.data[i]   = 0; // keep only the blue channel
+        img_ch_3.data[i+1] = 0;
+    }
+    context_ch_1.putImageData(img_ch_1, 0, 0);
+    context_ch_2.putImageData(img_ch_2, 0, 0);
+    context_ch_3.putImageData(img_ch_3, 0, 0);
+}
+
+function yuvChannels() {
+    img_ch_1 = context.getImageData(0, 0, canvas.width, canvas.height); 
+    img_ch_2 = context.getImageData(0, 0, canvas.width, canvas.height); 
+    img_ch_3 = context.getImageData(0, 0, canvas.width, canvas.height); 
+    
+    for (var i=0;i<output.data.length;i+=4)
+    {
+        var R = img_ch_1.data[i];
+        var G = img_ch_1.data[i+1];
+        var B = img_ch_1.data[i+2];
+
+        var Y =  (0.257 * R) + (0.504 * G) + (0.098 * B) + 16;  // Luminance
+        var V =  (0.439 * R) - (0.368 * G) - (0.071 * B) + 128; // Cr (red difference)
+        var U = -(0.148 * R) - (0.291 * G) + (0.439 * B) + 128; // Cb (blue difference)
+
+        img_ch_1.data[i+1] = Y; // Use the green channel to show luminance information
+        img_ch_1.data[i  ] = Y;
+        img_ch_1.data[i+2] = Y;
+
+        img_ch_2.data[i]   = V;
+        img_ch_2.data[i+1] = 0; // keep only the red channel
+        img_ch_2.data[i+2] = 0;
+
+        img_ch_3.data[i+2] = U;
         img_ch_3.data[i]   = 0; // keep only the blue channel
         img_ch_3.data[i+1] = 0;
     }
