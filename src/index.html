@@ -1,0 +1,70 @@
+<!DOCTYPE HTML>
+<html lang="en">
+ <head>
+  <title>Image processing with canvas and javascript</title>
+  
+  <script src="img_src.js"></script>
+  
+  <script>
+
+   function init() {
+     image.onload = demo;
+     image.src = "img_the_scream.jpg";
+   }
+   
+   function demo() {
+     canvas = document.getElementsByTagName('canvas')[0];
+     context = canvas.getContext('2d');
+
+     canvas_ch_1 = document.getElementsByTagName('canvas')[1];
+     context_ch_1 = canvas_ch_1.getContext('2d');
+
+     canvas_ch_2 = document.getElementsByTagName('canvas')[2];
+     context_ch_2 = canvas_ch_2.getContext('2d');
+
+     canvas_ch_3 = document.getElementsByTagName('canvas')[3];
+     context_ch_3 = canvas_ch_3.getContext('2d');
+
+     // draw the image onto the canvas
+     context.drawImage(image, 0, 0);
+
+     // get the image data to manipulate
+     input    = context.getImageData(0, 0, canvas.width, canvas.height);
+     img_ch_1 = context.getImageData(0, 0, canvas.width, canvas.height);
+     img_ch_2 = context.getImageData(0, 0, canvas.width, canvas.height);
+     img_ch_3 = context.getImageData(0, 0, canvas.width, canvas.height);
+
+     // get an empty slate to put the data into
+     output = context.createImageData(canvas.width, canvas.height);
+     
+     // alias some variables for convenience
+     // notice that we are using input.width and input.height here
+     // as they might not be the same as canvas.width and canvas.height
+     // (in particular, they might be different on high-res displays)
+     w = input.width;
+     h = input.height;
+
+     btn_edgeDetection();
+   }
+  </script>
+ </head>
+ 
+ <body onload="init()">
+   <img id="scream" src="img_the_scream.jpg" alt="The Scream" width="220" height="277">
+   <canvas width="220" height="277" style="border:1px solid #d3d3d3;">
+     Your browser does not support the HTML5 canvas tag.
+   </canvas>
+   <canvas width="220" height="277" style="border:1px solid #d3d3d3;"></canvas>
+   <canvas width="220" height="277" style="border:1px solid #d3d3d3;"></canvas>
+   <canvas width="220" height="277" style="border:1px solid #d3d3d3;"></canvas>
+
+   <p>
+   <button onclick = "btn_invert()"       >Invert</button>
+   <button onclick = "btn_grayScale()"    >Gray Scale</button>
+   <button onclick = "btn_rotateColors()" >Rot Colors</button>
+   <button onclick = "btn_convColSpace()" >Conv Colors</button>
+   <button onclick = "btn_edgeDetection()">Edge Detection</button>
+   <button onclick = "btn_undo()"         >Undo</button>
+
+ </body>
+</html>
